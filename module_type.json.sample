@@ -1,0 +1,18 @@
+{
+    "title": "Module title",
+    "default_name": "Module default name",
+    "short_description": "Module short description",
+    "description": "Module description",
+    "tips": "Module tips",
+    "external_references": [],
+    "configuration_spec": [],
+    "capabilities": [],
+    "properties": {
+        "url": "https://ciscohosted.url",
+        "supported-apis": [],
+        "auth-type": "configuration-token",
+        "configuration-token-alg": "RS256",
+        "custom_jwks_host": "Custom jwks host"
+    },
+    "logo": "logo link"
+}
