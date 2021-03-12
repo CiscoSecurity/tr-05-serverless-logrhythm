@@ -83,4 +83,3 @@ you may consider the following sections as some placeholders.
 ### Supported Types of Observables
 
 `N/A`
->>>>>>> CCTRI-2118
