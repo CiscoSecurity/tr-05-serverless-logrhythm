@@ -48,19 +48,19 @@ In order to build the application, we need to use a `Dockerfile`.
  1. Open a terminal.  Build the container image using the `docker build` command.
 
 ```
-docker build -t tr-05-module-name .
+docker build -t tr-05-docker-relay .
 ```
 
  2. Once the container is built, and an image is successfully created, start your container using the `docker run` command and specify the name of the image we have just created.  By default, the container will listen for HTTP requests using port 9090.
 
 ```
-docker run -dp 9090:9090 --name tr-05-module-name tr-05-module-name
+docker run -dp 9090:9090 --name tr-05-docker-relay tr-05-docker-relay
 ```
 
  3. Watch the container logs to ensure it starts correctly.
 
 ```
-docker logs tr-05-module-name
+docker logs tr-05-docker-relay
 ```
 
  4. Once the container has started correctly, open your web browser to http://localhost:9090.  You should see a response from the container.
