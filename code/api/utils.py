@@ -1,12 +1,13 @@
 import json
 from json.decoder import JSONDecodeError
-import requests
-import jwt
-from flask import request, jsonify
-from requests.exceptions import ConnectionError, InvalidURL
-from jwt import InvalidSignatureError, DecodeError, InvalidAudienceError
-from api.errors import AuthorizationError, InvalidArgumentError
 
+import jwt
+import requests
+from flask import request, jsonify
+from jwt import InvalidSignatureError, DecodeError, InvalidAudienceError
+from requests.exceptions import ConnectionError, InvalidURL, HTTPError
+
+from api.errors import AuthorizationError, InvalidArgumentError
 
 NO_AUTH_HEADER = 'Authorization header is missing'
 WRONG_AUTH_TYPE = 'Wrong authorization type'
@@ -32,14 +33,16 @@ def get_public_key(jwks_host, token):
     any way, replaced by another function, or even removed from the module.
     """
 
-    expected_errors = {
-        ConnectionError: WRONG_JWKS_HOST,
-        InvalidURL: WRONG_JWKS_HOST,
-        KeyError: WRONG_JWKS_HOST,
-        JSONDecodeError: WRONG_JWKS_HOST
-    }
+    expected_errors = (
+        ConnectionError,
+        InvalidURL,
+        KeyError,
+        JSONDecodeError,
+        HTTPError
+    )
     try:
         response = requests.get(f"https://{jwks_host}/.well-known/jwks")
+        response.raise_for_status()
         jwks = response.json()
 
         public_keys = {}
@@ -50,9 +53,9 @@ def get_public_key(jwks_host, token):
             )
         kid = jwt.get_unverified_header(token)['kid']
         return public_keys.get(kid)
-    except tuple(expected_errors) as error:
-        message = expected_errors[error.__class__]
-        raise AuthorizationError(message)
+
+    except expected_errors:
+        raise AuthorizationError(WRONG_JWKS_HOST)
 
 
 def get_auth_token():
