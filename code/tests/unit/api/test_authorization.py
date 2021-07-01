@@ -171,7 +171,7 @@ def test_call_with_missing_jwks_host(
 
     response = client.post(
         route,
-        headers=get_headers(valid_jwt(jwks_host=''))
+        headers=get_headers(valid_jwt(wrong_jwks_host=True))
     )
     assert response.status_code == HTTPStatus.OK
     assert response.json == authorization_errors_expected_payload(
