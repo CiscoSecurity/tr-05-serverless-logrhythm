@@ -20,11 +20,7 @@ from ..payloads_for_tests import (
 
 def routes():
     yield '/health'
-    yield '/deliberate/observables'
     yield '/observe/observables'
-    yield '/refer/observables'
-    yield '/respond/observables'
-    yield '/respond/trigger'
     yield '/tiles'
     yield '/tiles/tile'
     yield '/tiles/tile-data'
