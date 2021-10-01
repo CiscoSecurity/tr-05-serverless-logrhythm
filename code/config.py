@@ -10,3 +10,4 @@ class Config:
 
     # TODO replace http with https before release
     LOGRHYTHM_API_ENDPOINT = 'http://{host}/lr-search-api/actions'
+    HEALTH_IP = '192.0.2.1'

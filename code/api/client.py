@@ -26,7 +26,7 @@ class LogRhythmClient:
         return url.format(host=self._credentials.get('host'))
 
     def health(self):
-        payload = request_body('192.0.2.1', 9)
+        payload = request_body(current_app.config.get('HEALTH_IP'), 9)
         return self._request(path='search-task', payload=payload,
                              method='POST')
 
