@@ -21,7 +21,8 @@ def client():
 @fixture(scope='session')
 def valid_jwt(client):
     def _make_jwt(
-            key='some_key',
+            token='some_token',
+            host='some_host.logrhythm',
             jwks_host='visibility.amp.cisco.com',
             aud='http://localhost',
             kid='02B1174234C29F8EFB69911438F597FF3FFEE6B7',
@@ -29,7 +30,8 @@ def valid_jwt(client):
             wrong_jwks_host=False
     ):
         payload = {
-            'key': key,
+            'token': token,
+            'host': host,
             'jwks_host': jwks_host,
             'aud': aud,
         }
@@ -38,7 +40,7 @@ def valid_jwt(client):
             payload.pop('jwks_host')
 
         if wrong_structure:
-            payload.pop('key')
+            payload.pop('token')
 
         return jwt.encode(
             payload, client.application.rsa_private_key, algorithm='RS256',
@@ -73,3 +75,44 @@ def mock_api_response(status_code=HTTPStatus.OK, payload=None):
     mock_response.json = lambda: payload
 
     return mock_response
+
+
+@fixture(scope='module')
+def ssl_error_expected_relay_response():
+    return {
+        'errors':
+            [
+                {
+                    'code': 'unknown',
+                    'message':
+                        'Unable to verify SSL certificate: '
+                        'Self signed certificate',
+                    'type': 'fatal'
+                }
+            ]
+    }
+
+
+@fixture
+def mock_exception_for_ssl_error():
+    mock_response = MagicMock()
+    mock_response.reason.args.__getitem__().verify_message = 'Self signed' \
+                                                             ' certificate'
+    return mock_response
+
+
+@fixture(scope='module')
+def connection_error_expected_relay_response():
+    return {
+        'errors':
+            [
+                {
+                    'code': 'connection error',
+                    'message':
+                        'Unable to connect to LogRhythm, '
+                        'validate the configured API endpoint: '
+                        'http://some_host.logrhythm/lr-search-api/actions',
+                    'type': 'fatal'
+                }
+            ]
+    }
