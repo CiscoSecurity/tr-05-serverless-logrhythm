@@ -7,9 +7,7 @@ from ..payloads_for_tests import EXPECTED_RESPONSE_OF_JWKS_ENDPOINT
 
 
 def routes():
-    yield '/deliberate/observables'
     yield '/observe/observables'
-    yield '/refer/observables'
 
 
 @fixture(scope='module', params=routes(), ids=lambda route: f'POST {route}')

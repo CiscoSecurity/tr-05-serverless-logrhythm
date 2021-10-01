@@ -1,13 +1,13 @@
 {
-  "title": "Docker Relay",
-  "default_name": "Docker Relay",
+  "title": "LogRhythm",
+  "default_name": "LogRhythm",
   "short_description": "Generic Docker Relay module that can be used when developing new integrations",
   "description": "Generic Docker Relay module description",
-  "tips": When configuring this integration, you must first gather some information from your third-party account if needed and add the Docker Relay Module\n\n1. Complete the **Add New Docker Relay Module** form:\n    - **Module Name** - Leave the default name or enter a name that is meaningful to you.\n   - **API KEY** - Enter third party api key\n9. Click **Save** to complete the Docker Relay module configuration.",
+  "tips": When configuring LogRhythm integration, you must first gather some information from your third-party account if needed and add the Docker Relay Module\n\n1. Complete the **Add New Docker Relay Module** form:\n    - **Module Name** - Leave the default name or enter a name that is meaningful to you.\n   - **API KEY** - Enter third party api key\n9. Click **Save** to complete the Docker Relay module configuration.",
   "external_references": [
     {
-      "label": "Docker Relay Template",
-      "link": "https://github.com/CiscoSecurity/tr-05-docker-relay"
+      "label": "Official website",
+      "link": "https://logrhythm.com/"
     }
   ],
   "configuration_spec": [
@@ -25,20 +25,8 @@
       "description": "Healthcheck"
     },
     {
-      "id": "deliberate",
-      "description": "Deliberation"
-    },
-    {
       "id": "observe",
       "description": "Enrichments"
-    },
-    {
-      "id": "refer",
-      "description": "Reference links"
-    },
-    {
-      "id": "respond",
-      "description": "Response actions"
     },
     {
       "id": "tiles",
@@ -49,10 +37,6 @@
     "supported-apis": [
       "health",
       "observe/observables",
-      "deliberate/observables",
-      "refer/observables",
-      "respond/observables",
-      "respond/trigger",
       "tiles",
       "tiles/tile",
       "tiles/tile-data"

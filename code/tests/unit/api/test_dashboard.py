@@ -1,5 +1,3 @@
-
-
 from pytest import fixture
 from http import HTTPStatus
 from .utils import get_headers
