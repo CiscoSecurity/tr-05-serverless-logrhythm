@@ -6,8 +6,8 @@ echo
 echo " Development Dockerfile build script."
 echo
 
-module_name="Docker relay"
-image_name="tr-05-docker-relay"
+module_name="LogRhythm relay"
+image_name="tr-05-logrhythm"
 
 CONFIG_FILE=code/container_settings.json
 if [ -f $CONFIG_FILE ]; then
