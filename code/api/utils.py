@@ -3,7 +3,7 @@ from json.decoder import JSONDecodeError
 
 import jwt
 import requests
-from flask import request, jsonify
+from flask import request, jsonify, current_app
 from jwt import InvalidSignatureError, DecodeError, InvalidAudienceError
 from requests.exceptions import ConnectionError, InvalidURL, HTTPError
 
@@ -70,15 +70,15 @@ def get_auth_token():
         raise AuthorizationError(expected_errors[error.__class__])
 
 
-def get_jwt():
+def get_credentials():
     """
     Get Authorization token and validate its signature
     against the public key from /.well-known/jwks endpoint.
     """
 
     expected_errors = {
-        KeyError: WRONG_PAYLOAD_STRUCTURE,
-        AssertionError: JWKS_HOST_MISSING,
+        KeyError: JWKS_HOST_MISSING,
+        AssertionError: WRONG_PAYLOAD_STRUCTURE,
         InvalidSignatureError: WRONG_KEY,
         DecodeError: WRONG_JWT_STRUCTURE,
         InvalidAudienceError: WRONG_AUDIENCE,
@@ -86,15 +86,17 @@ def get_jwt():
     }
     token = get_auth_token()
     try:
-        jwks_payload = jwt.decode(token, options={'verify_signature': False})
-        assert 'jwks_host' in jwks_payload
-        jwks_host = jwks_payload.get('jwks_host')
+        jwks_host = jwt.decode(
+            token, options={'verify_signature': False}
+        )['jwks_host']
         key = get_public_key(jwks_host, token)
         aud = request.url_root
         payload = jwt.decode(
             token, key=key, algorithms=['RS256'], audience=[aud.rstrip('/')]
         )
-        return payload['key']
+        assert payload.get('token')
+        assert payload.get('host')
+        return payload
     except tuple(expected_errors) as error:
         message = expected_errors[error.__class__]
         raise AuthorizationError(message)
@@ -122,3 +124,57 @@ def jsonify_data(data):
 
 def jsonify_errors(data):
     return jsonify({'errors': [data]})
+
+
+def set_ctr_entities_limit(payload):
+    try:
+        ctr_entities_limit = int(payload['CTR_ENTITIES_LIMIT'])
+        assert ctr_entities_limit > 0
+    except (KeyError, ValueError, AssertionError):
+        ctr_entities_limit = current_app.config['CTR_DEFAULT_ENTITIES_LIMIT']
+    current_app.config['CTR_ENTITIES_LIMIT'] = ctr_entities_limit
+
+
+def request_body(observable, interval_unit):
+    return {
+        'maxMsgsToQuery': 101,
+        'queryTimeout': 1,
+        'searchMode': 2,
+        'queryLogSources': [],
+        'queryEventManager': True,
+        'queryFilter': {
+            'msgFilterType': 2,
+            'filterGroup': {
+                'filterItemType': 1,
+                'filterGroupOperator': 0,
+                'filterMode': 1,
+                'filterItems': [
+                    {
+                        'filterItemType': 0,
+                        'filterType': 17,
+                        'filterMode': 1,
+                        'values': [
+                            {
+                                'filterType': 17,
+                                'valueType': 5,
+                                'value': f'{observable}'
+                            }
+                        ],
+                    }
+                ],
+            },
+        },
+        'dateCriteria': {
+            'lastIntervalValue': 30,
+            'lastIntervalUnit': interval_unit
+        },
+    }
+
+
+class BearerAuth(requests.auth.AuthBase):
+    def __init__(self, token):
+        self.token = token
+
+    def __call__(self, request_instance):
+        request_instance.headers['Authorization'] = f'Bearer {self.token}'
+        return request_instance
