@@ -1,14 +1,15 @@
+from http import HTTPStatus
+
 import requests
 from flask import current_app
 from requests.exceptions import ConnectionError, SSLError
-from http import HTTPStatus
 
+from api.utils import request_body, BearerAuth
 from api.errors import (
     AuthorizationError,
     LogRhythmSSLError,
     LogRhythmConnectionError,
 )
-from api.utils import BearerAuth, request_body
 
 INVALID_CREDENTIALS = 'wrong access_id or access_key'
 

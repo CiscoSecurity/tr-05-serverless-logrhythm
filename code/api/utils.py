@@ -176,5 +176,5 @@ class BearerAuth(requests.auth.AuthBase):
         self.token = token
 
     def __call__(self, request_instance):
-        request_instance.headers['authorization'] = f'Bearer {self.token}'
+        request_instance.headers['Authorization'] = f'Bearer {self.token}'
         return request_instance

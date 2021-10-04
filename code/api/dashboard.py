@@ -1,4 +1,5 @@
 from flask import Blueprint
+
 from api.utils import jsonify_data, get_credentials, get_json
 from api.schemas import DashboardTileSchema, DashboardTileDataSchema
 
