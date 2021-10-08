@@ -50,7 +50,7 @@ RESPONSE_OF_JWKS_ENDPOINT_WITH_WRONG_KEY = {
     ]
 }
 
-PRIVATE_KEY = """-----BEGIN RSA PRIVATE KEY-----
+PRIVATE_KEY = '''-----BEGIN RSA PRIVATE KEY-----
 MIIJKwIBAAKCAgEAtSKfSeI0fukRIX38AHlKB1YPpX8PUYN2JdvfM+XjNmLfU1M7
 4N0VmdzIX95sneQGO9kC2xMIE+AIlt52Yf/KgBZggAlS9Y0Vx8DsSL2HvOjguAdX
 ir3vYLvAyyHin/mUisJOqccFKChHKjnk0uXy/38+1r17/cYTp76brKpU1I4kM20M
@@ -100,77 +100,77 @@ E1pPCPaICD9i5U+NRvPz2vC900HcraLRrUFaRzwhqOOknYJSBrGzW+Cx3YSeaOCg
 nKyI8B5gw4C0G0iL1dSsz2bR1O4GNOVfT3R6joZEXATFo/Kc2L0YAvApBNUYvY0k
 bjJ/JfTO5060SsWftf4iw3jrhSn9RwTTYdq/kErGFWvDGJn2MiuhMe2onNfVzIGR
 mdUxHwi1ulkspAn/fmY7f0hZpskDwcHyZmbKZuk+NU/FJ8IAcmvk9y7m25nSSc8=
------END RSA PRIVATE KEY-----"""
+-----END RSA PRIVATE KEY-----'''
 
 EXPECTED_RESPONSE_FROM_LOGRHYTHM_SEARCH_TASK = {
-    "StatusCode": 200,
-    "StatusMessage": "Success",
-    "ResponseMessage": "Success",
-    "TaskStatus": "Searching",
-    "TaskId": "a4f34088-61f7-4331-97d4-4668736298b3"
+    'StatusCode': 200,
+    'StatusMessage': 'Success',
+    'ResponseMessage': 'Success',
+    'TaskStatus': 'Searching',
+    'TaskId': 'a4f34088-61f7-4331-97d4-4668736298b3'
 }
 
 
 EXPECTED_RESPONSE_FROM_LOGRHYTHM = {
-    "StatusCode": 200,
-    "StatusMessage": "Success",
-    "ResponseMessage": "Success",
-    "TaskStatus": "Search Failed",
-    "FilteredLogsCount": 101,
-    "AllLogsCount": 101,
-    "Items": [
+    'StatusCode': 200,
+    'StatusMessage': 'Success',
+    'ResponseMessage': 'Success',
+    'TaskStatus': 'Search Failed',
+    'FilteredLogsCount': 101,
+    'AllLogsCount': 101,
+    'Items': [
         {
-            "keyField": "messageId",
-            "count": 1,
-            "classificationId": 3200,
-            "classificationName": "Error",
-            "classificationTypeName": "Operations",
-            "commonEventName": "No Translation Group Found For Protocol",
-            "commonEventId": 6788,
-            "direction": 2,
-            "directionName": "Internal",
-            "entityId": 1,
-            "entityName": "Primary Site",
-            "rootEntityId": 1,
-            "rootEntityName": "Primary Site",
-            "impactedEntityId": 1,
-            "impactedEntityName": "Primary Site",
-            "impactedHost": "10.0.15.255",
-            "impactedIp": "10.0.15.255",
-            "impactedPort": 138,
-            "impactedZoneName": "Internal",
-            "indexedDate": 1633691826597,
-            "insertedDate": 1632167822037,
-            "logDate": 1632142608463,
-            "logSourceHost": "192.168.78.155",
-            "logSourceHostId": 2,
-            "logSourceHostName": "192.168.78.155",
-            "logSourceId": 10,
-            "logSourceName": "192.168.78.155 Cisco ASA",
-            "logSourceType": 162,
-            "logSourceTypeName": "Syslog - Cisco ASA",
-            "messageId": "48810",
-            "messageTypeEnum": 2,
-            "mpeRuleId": 27239,
-            "mpeRuleName": "PIX-X-305005: No Translation Group Found",
-            "normalDate": 1632167808477,
-            "normalDateMin": 1632167808477,
-            "normalMsgDateMax": 1632167808477,
-            "normalDateHour": 1632164400000,
-            "originEntityId": 1,
-            "originEntityName": "Primary Site",
-            "originHostId": -1,
-            "originHost": "10.0.15.77",
-            "originIp": "10.0.15.77",
-            "originPort": 138,
-            "originZone": 0,
-            "originZoneName": "Internal",
-            "priority": 44,
-            "protocolId": 17,
-            "protocolName": "UDP",
-            "portProtocol": "138/UDP",
-            "severity": "3",
-            "vendorMessageId": "305005"
+            'keyField': 'messageId',
+            'count': 1,
+            'classificationId': 3200,
+            'classificationName': 'Error',
+            'classificationTypeName': 'Operations',
+            'commonEventName': 'No Translation Group Found For Protocol',
+            'commonEventId': 6788,
+            'direction': 2,
+            'directionName': 'Internal',
+            'entityId': 1,
+            'entityName': 'Primary Site',
+            'rootEntityId': 1,
+            'rootEntityName': 'Primary Site',
+            'impactedEntityId': 1,
+            'impactedEntityName': 'Primary Site',
+            'impactedHost': '10.0.15.255',
+            'impactedIp': '10.0.15.255',
+            'impactedPort': 138,
+            'impactedZoneName': 'Internal',
+            'indexedDate': 1633691826597,
+            'insertedDate': 1632167822037,
+            'logDate': 1632142608463,
+            'logSourceHost': '192.168.78.155',
+            'logSourceHostId': 2,
+            'logSourceHostName': '192.168.78.155',
+            'logSourceId': 10,
+            'logSourceName': '192.168.78.155 Cisco ASA',
+            'logSourceType': 162,
+            'logSourceTypeName': 'Syslog - Cisco ASA',
+            'messageId': '48810',
+            'messageTypeEnum': 2,
+            'mpeRuleId': 27239,
+            'mpeRuleName': 'PIX-X-305005: No Translation Group Found',
+            'normalDate': 1632167808477,
+            'normalDateMin': 1632167808477,
+            'normalMsgDateMax': 1632167808477,
+            'normalDateHour': 1632164400000,
+            'originEntityId': 1,
+            'originEntityName': 'Primary Site',
+            'originHostId': -1,
+            'originHost': '10.0.15.77',
+            'originIp': '10.0.15.77',
+            'originPort': 138,
+            'originZone': 0,
+            'originZoneName': 'Internal',
+            'priority': 44,
+            'protocolId': 17,
+            'protocolName': 'UDP',
+            'portProtocol': '138/UDP',
+            'severity': '3',
+            'vendorMessageId': '305005'
         }
     ]
 }

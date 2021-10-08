@@ -29,7 +29,7 @@ class Sighting:
     def _time_format(time: int) -> str:
         return datetime.fromtimestamp(
             time / 1000.0,
-            timezone.utc).isoformat(timespec="milliseconds")
+            timezone.utc).isoformat(timespec='milliseconds')
 
     def _observed_time(self, time: int) -> dict:
         return {

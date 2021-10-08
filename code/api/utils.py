@@ -217,8 +217,8 @@ def filter_observables(observables):
     observables = remove_duplicates(observables)
     return list(
         filter(lambda obs: (
-                obs['type'] in supported_types and obs["value"] != "0"
-                and not obs["value"].isspace()
+                obs['type'] in supported_types and obs['value'] != '0'
+                and not obs['value'].isspace()
         ), observables)
     )
 
