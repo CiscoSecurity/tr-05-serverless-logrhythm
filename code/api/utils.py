@@ -1,9 +1,10 @@
 import json
 from json.decoder import JSONDecodeError
+from uuid import uuid4
 
 import jwt
 import requests
-from flask import request, jsonify, current_app
+from flask import request, jsonify, current_app, g
 from jwt import InvalidSignatureError, DecodeError, InvalidAudienceError
 from requests.exceptions import ConnectionError, InvalidURL, HTTPError
 
@@ -96,6 +97,8 @@ def get_credentials():
         )
         assert payload.get('token')
         assert payload.get('host')
+        set_ctr_entities_limit(payload)
+
         return payload
     except tuple(expected_errors) as error:
         message = expected_errors[error.__class__]
@@ -171,6 +174,25 @@ def request_body(observable, interval_unit):
     }
 
 
+def result_request_body(task_id):
+    return {
+        'data': {
+            'searchGuid': f'{task_id}',
+            'paginator': {
+                'origin': 0,
+                'page_size': 200
+            },
+            'search': {
+                'sort': [
+                    {
+                        'fieldName': 'normalDate',
+                        'order': 'dsc'}
+                ]
+            }
+        }
+    }
+
+
 class BearerAuth(requests.auth.AuthBase):
     def __init__(self, token):
         self.token = token
@@ -178,3 +200,47 @@ class BearerAuth(requests.auth.AuthBase):
     def __call__(self, request_instance):
         request_instance.headers['Authorization'] = f'Bearer {self.token}'
         return request_instance
+
+
+def transient_id(entity_type, uuid=None):
+    if uuid:
+        return f'transient:{entity_type}-{uuid}'
+    return f'transient:{entity_type}-{uuid4()}'
+
+
+def add_error(error):
+    g.errors = [*g.get('errors', []), error.json]
+
+
+def filter_observables(observables):
+    supported_types = current_app.config['SUPPORTED_TYPES']
+    observables = remove_duplicates(observables)
+    return list(
+        filter(lambda obs: (
+                obs['type'] in supported_types and obs["value"] != "0"
+                and not obs["value"].isspace()
+        ), observables)
+    )
+
+
+def remove_duplicates(observables):
+    return [dict(t) for t in {tuple(d.items()) for d in observables}]
+
+
+def format_docs(docs):
+    return {'count': len(docs), 'docs': docs}
+
+
+def jsonify_result():
+    result = {'data': {}}
+
+    if g.get('sightings'):
+        result['data']['sightings'] = format_docs(g.sightings)
+
+    if g.get('errors'):
+        result['errors'] = g.errors
+
+        if not result.get('data'):
+            result.pop('data', None)
+
+    return jsonify(result)

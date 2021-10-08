@@ -27,19 +27,12 @@
     {
       "id": "observe",
       "description": "Enrichments"
-    },
-    {
-      "id": "tiles",
-      "description": "Dashboard tiles"
     }
   ],
   "properties": {
     "supported-apis": [
       "health",
-      "observe/observables",
-      "tiles",
-      "tiles/tile",
-      "tiles/tile-data"
+      "observe/observables"
     ],
     "auth-type": "configuration-token",
     "configuration-token-alg": "RS256",

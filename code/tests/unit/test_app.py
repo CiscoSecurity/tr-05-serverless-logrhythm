@@ -16,9 +16,6 @@ def calls():
     yield Call('GET', '/version', HTTPStatus.METHOD_NOT_ALLOWED)
     yield Call('GET', '/health', HTTPStatus.METHOD_NOT_ALLOWED)
     yield Call('GET', '/observe/observables', HTTPStatus.METHOD_NOT_ALLOWED)
-    yield Call('GET', '/tiles', HTTPStatus.METHOD_NOT_ALLOWED)
-    yield Call('GET', '/tiles/tile', HTTPStatus.METHOD_NOT_ALLOWED)
-    yield Call('GET', '/tiles/tile-data', HTTPStatus.METHOD_NOT_ALLOWED)
     yield Call('POST', '/watchdog', HTTPStatus.METHOD_NOT_ALLOWED)
 
 
