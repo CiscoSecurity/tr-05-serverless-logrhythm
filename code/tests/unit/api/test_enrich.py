@@ -47,7 +47,7 @@ def test_enrich_call_with_valid_jwt_but_invalid_json_value(
                            json=invalid_json_value)
     assert response.status_code == HTTPStatus.OK
     assert response.json == invalid_json_expected_payload(
-        "{0: {'value': ['Field may not be blank.']}}"
+        "{0: {'value': ['Not a valid IP address.']}}"
     )
 
 
