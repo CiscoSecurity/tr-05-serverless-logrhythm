@@ -71,7 +71,6 @@ def test_enrich_call_success(mock_get, mock_request, mock_task_id, mock_id,
     mock_id.side_effect = uuid4()
     response = client.post(route, headers=get_headers(valid_jwt()),
                            json=valid_json)
-    # breakpoint()
     assert response.status_code == HTTPStatus.OK
     assert response.json == EXPECTED_RESPONSE_FROM_RELAY
 

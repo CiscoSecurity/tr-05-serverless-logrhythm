@@ -29,6 +29,8 @@ class LogRhythmClient:
             'User-Agent': current_app.config['USER_AGENT']
         }
         self._entities_limit = current_app.config['CTR_ENTITIES_LIMIT']
+        self._default_entities_limit = \
+            current_app.config['CTR_DEFAULT_ENTITIES_LIMIT']
 
     @property
     def _url(self):
@@ -61,7 +63,7 @@ class LogRhythmClient:
             response = self._request(path=path, payload=payload)
 
         if (len(response.get('Items')) == search_limit and
-                self._entities_limit == 100):
+                self._entities_limit == self._default_entities_limit):
             add_error(MoreMessagesAvailableWarning(observable))
 
         return response.get('Items')[:self._entities_limit]
