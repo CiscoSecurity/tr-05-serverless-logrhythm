@@ -138,9 +138,9 @@ def set_ctr_entities_limit(payload):
     current_app.config['CTR_ENTITIES_LIMIT'] = ctr_entities_limit
 
 
-def request_body(observable, interval_unit):
+def request_body(observable, interval_unit, limit):
     return {
-        'maxMsgsToQuery': 101,
+        'maxMsgsToQuery': limit,
         'queryTimeout': 1,
         'searchMode': 2,
         'queryLogSources': [],

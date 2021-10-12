@@ -38,11 +38,19 @@ class LogRhythmClient:
         return url.format(host=self._credentials.get('host'))
 
     def health(self):
-        payload = request_body(current_app.config.get('HEALTH_IP'), 9)
+        payload = request_body(
+            current_app.config.get('HEALTH_IP'),
+            9,
+            self._entities_limit,
+        )
         return self._request(path='search-task', payload=payload)
 
     def _get_search_task_id(self, observable):
-        payload = request_body(observable.get('value'), 4)
+        payload = request_body(
+            observable.get('value'),
+            4,
+            self._entities_limit,
+        )
         task_id = ''
         response = self._request(path='search-task', payload=payload)
         if response:
@@ -53,7 +61,6 @@ class LogRhythmClient:
         path = 'search-result'
         max_retry_count = 10
         check_request_delay = 5
-        search_limit = 101
         items = []
         task_id = self._get_search_task_id(observable)
 
@@ -62,17 +69,17 @@ class LogRhythmClient:
             response = self._request(path=path, payload=payload)
 
             while (response.get('TaskStatus') in SEARCH_STATUSES and
-                   len(response.get('Items')) < search_limit and
+                   len(response.get('Items')) < self._entities_limit and
                    max_retry_count):
                 time.sleep(check_request_delay)
                 max_retry_count -= 1
                 response = self._request(path=path, payload=payload)
 
-            if (len(response.get('Items')) == search_limit and
+            if (len(response.get('Items')) == self._entities_limit and
                     self._entities_limit == self._default_entities_limit):
                 add_error(MoreMessagesAvailableWarning(observable))
 
-            items = response.get('Items')[:self._entities_limit]
+            items = response.get('Items')
 
         return items
 
