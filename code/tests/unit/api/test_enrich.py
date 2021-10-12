@@ -109,3 +109,20 @@ def test_enrich_call_with_unauthorized_error(
                            json=valid_json)
     assert response.status_code == HTTPStatus.OK
     assert response.json == authorization_error_expected_relay_response
+
+
+@patch('requests.request')
+@patch('requests.get')
+def test_enrich_call_with_bad_request_error(
+        mock_get, mock_request, client, valid_jwt, valid_json, route):
+
+    mock_get.return_value = \
+        mock_api_response(payload=EXPECTED_RESPONSE_OF_JWKS_ENDPOINT)
+    mock_request.return_value = mock_api_response(
+        status_code=HTTPStatus.BAD_REQUEST)
+
+    response = client.post(route,
+                           headers=get_headers(valid_jwt()),
+                           json=valid_json)
+    assert response.status_code == HTTPStatus.OK
+    assert response.json == {'data': {}}
