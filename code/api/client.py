@@ -43,30 +43,38 @@ class LogRhythmClient:
 
     def _get_search_task_id(self, observable):
         payload = request_body(observable.get('value'), 4)
-
+        task_id = ''
         response = self._request(path='search-task', payload=payload)
-        return response.get('TaskId')
+        if response:
+            task_id = response.get('TaskId')
+        return task_id
 
     def get_data(self, observable):
         path = 'search-result'
         max_retry_count = 10
         check_request_delay = 5
         search_limit = 101
+        items = []
         task_id = self._get_search_task_id(observable)
-        payload = result_request_body(task_id)
-        response = self._request(path=path, payload=payload)
 
-        while (response.get('TaskStatus') in SEARCH_STATUSES and
-               len(response.get('Items')) < search_limit and max_retry_count):
-            time.sleep(check_request_delay)
-            max_retry_count -= 1
+        if task_id:
+            payload = result_request_body(task_id)
             response = self._request(path=path, payload=payload)
 
-        if (len(response.get('Items')) == search_limit and
-                self._entities_limit == self._default_entities_limit):
-            add_error(MoreMessagesAvailableWarning(observable))
+            while (response.get('TaskStatus') in SEARCH_STATUSES and
+                   len(response.get('Items')) < search_limit and
+                   max_retry_count):
+                time.sleep(check_request_delay)
+                max_retry_count -= 1
+                response = self._request(path=path, payload=payload)
 
-        return response.get('Items')[:self._entities_limit]
+            if (len(response.get('Items')) == search_limit and
+                    self._entities_limit == self._default_entities_limit):
+                add_error(MoreMessagesAvailableWarning(observable))
+
+            items = response.get('Items')[:self._entities_limit]
+
+        return items
 
     def _request(self, path, method='POST', payload=None, params=None):
         url = '/'.join([self._url, path.lstrip('/')])
@@ -89,3 +97,5 @@ class LogRhythmClient:
             return response.json()
         elif response.status_code == HTTPStatus.UNAUTHORIZED:
             raise AuthorizationError(INVALID_CREDENTIALS)
+        elif response.status_code == HTTPStatus.BAD_REQUEST:
+            return {}

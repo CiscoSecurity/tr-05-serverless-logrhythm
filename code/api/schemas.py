@@ -11,6 +11,7 @@ class ObservableSchema(Schema):
         validate=validate_string,
         required=True,
     )
-    value = fields.IP(
+    value = fields.String(
+        validate=validate_string,
         required=True,
     )
