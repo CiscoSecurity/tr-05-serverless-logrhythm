@@ -61,3 +61,13 @@ class LogRhythmConnectionError(TRFormattedError):
             'Unable to connect to LogRhythm,'
             f' validate the configured API endpoint: {url}'
         )
+
+
+class MoreMessagesAvailableWarning(TRFormattedError):
+    def __init__(self, observable):
+        super().__init__(
+            'too-many-messages-warning',
+            f'More events in LogRhythm for {observable.get("value")} that can'
+            'be rendered. Log in to the LogRhythm console to see all events',
+            type_='warning',
+        )
