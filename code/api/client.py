@@ -36,17 +36,19 @@ class LogRhythmClient:
         return url.format(host=self._credentials.get('host'))
 
     def health(self):
+        interval_unit = 9
         payload = request_body(
             current_app.config.get('HEALTH_IP'),
-            9,
+            interval_unit,
             self._entities_limit,
         )
         return self._request(path='search-task', payload=payload)
 
     def _get_search_task_id(self, observable):
+        interval_unit = 4
         payload = request_body(
             observable.get('value'),
-            4,
+            interval_unit,
             self._entities_limit + 1,
         )
         task_id = ''
