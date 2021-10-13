@@ -111,7 +111,8 @@ def connection_error_expected_relay_response():
                     'message':
                         'Unable to connect to LogRhythm, '
                         'validate the configured API endpoint: '
-                        'http://some_host.logrhythm/lr-search-api/actions/search-task',
+                        'http://some_host.logrhythm/lr-search-api/actions/'
+                        'search-task',
                     'type': 'fatal'
                 }
             ]
