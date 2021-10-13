@@ -2,12 +2,11 @@ from http import HTTPStatus
 from unittest.mock import patch
 
 from pytest import fixture
+from requests.exceptions import SSLError, ConnectionError, InvalidURL
 
 from api.errors import AUTH_ERROR
 from tests.unit.api.utils import get_headers
 from tests.unit.conftest import mock_api_response
-from requests.exceptions import SSLError, ConnectionError, InvalidURL
-
 from api.utils import (
     WRONG_PAYLOAD_STRUCTURE,
     WRONG_KEY,
@@ -25,9 +24,6 @@ from tests.unit.payloads_for_tests import (
 def routes():
     yield '/health'
     yield '/observe/observables'
-    yield '/tiles'
-    yield '/tiles/tile'
-    yield '/tiles/tile-data'
 
 
 @fixture(scope='module', params=routes(), ids=lambda route: f'POST {route}')
