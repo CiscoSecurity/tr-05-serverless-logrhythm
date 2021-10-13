@@ -69,7 +69,6 @@ class LogRhythmClient:
             response = self._request(path=path, payload=payload)
 
             while (response.get('TaskStatus') in SEARCH_STATUSES and
-                   len(response.get('Items')) < self._entities_limit and
                    max_retry_count):
                 time.sleep(check_request_delay)
                 max_retry_count -= 1
@@ -98,11 +97,13 @@ class LogRhythmClient:
         except UnicodeEncodeError:
             raise AuthorizationError(INVALID_CREDENTIALS)
         except ConnectionError:
-            raise LogRhythmConnectionError(self._url)
+            raise LogRhythmConnectionError(url)
 
         if response.ok:
             return response.json()
         elif response.status_code == HTTPStatus.UNAUTHORIZED:
             raise AuthorizationError(INVALID_CREDENTIALS)
+        elif response.status_code == HTTPStatus.NOT_FOUND:
+            raise LogRhythmConnectionError(url)
         elif response.status_code == HTTPStatus.BAD_REQUEST:
             return {}

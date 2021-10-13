@@ -7,6 +7,9 @@ CTIM_DEFAULTS = {
     'schema_version': '1.1.8',
 }
 
+TITLE = SHORT_DESCRIPTION = \
+    'A LogRhythm event in last 30 days contains observable'
+
 SIGHTING = 'sighting'
 
 SIGHTING_DEFAULTS = {
@@ -15,9 +18,8 @@ SIGHTING_DEFAULTS = {
     'confidence': 'High',
     'type': SIGHTING,
     'source': 'LogRhythm',
-    'title': 'A LogRhythm event in last 30 days contains observable',
-    'short_description': 'A LogRhythm event in last 30 days '
-                         'contains observable',
+    'title': TITLE,
+    'short_description': SHORT_DESCRIPTION,
 }
 
 
