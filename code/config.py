@@ -8,8 +8,7 @@ class Config:
                   '<tr-integrations-support@cisco.com>')
     CTR_DEFAULT_ENTITIES_LIMIT = 100
 
-    # TODO replace http with https before release
-    LOGRHYTHM_API_ENDPOINT = 'http://{host}/lr-search-api/actions'
+    LOGRHYTHM_API_ENDPOINT = 'https://{host}/lr-search-api/actions'
     HEALTH_IP = '192.0.2.1'
 
     SUPPORTED_TYPES = [
