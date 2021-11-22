@@ -71,8 +71,32 @@ This application was developed and tested under Python version 3.9.
 
 ### Implemented Relay Endpoints
 
-`N/A`
+- `POST /health`
+  - Verifies the Authorization Bearer JWT and decodes it to restore the original credentials.
+  - Authenticates to the underlying external service to check that provided 
+    credentials are valid and the service is available at the moment
+- `POST /observe/observables`
+  - Accepts a list of observables and filters out unsupported ones.
+  - Verifies the Authorization Bearer JWT and decodes it to restore the original credentials.
+  - Makes a series of requests to the underlying external service to query for 
+    some cyber threat intelligence data on each supported observable.
+  - Maps the fetched data into appropriate CTIM entities.
+  - Returns a list per each of the following CTIM entities (if any extracted):
+    - Sighting
 
 ### Supported Types of Observables
 
-`N/A`
+- ip
+- ipv6
+
+
+### CTIM Mapping Specifics
+
+Each response from the LogRhythm API for the supported observables generates the following CTIM entities:
+  - `Sightings` are taken from each message in LogRhythm response.
+
+Sightings are based on `.Items[]`
+
+Used values:
+  - `.TaskId`
+  - `.logDate`
