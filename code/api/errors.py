@@ -68,6 +68,6 @@ class MoreMessagesAvailableWarning(TRFormattedError):
         super().__init__(
             'too-many-messages-warning',
             f'More events in LogRhythm for {observable.get("value")} that can'
-            'be rendered. Log in to the LogRhythm console to see all events',
+            ' be rendered. Log in to the LogRhythm console to see all events',
             type_='warning',
         )
