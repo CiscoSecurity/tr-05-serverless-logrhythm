@@ -141,7 +141,7 @@ def set_ctr_entities_limit(payload):
 def request_body(observable, interval_unit, limit):
     return {
         'maxMsgsToQuery': limit,
-        'queryTimeout': 1,
+        'queryTimeout': 60,
         'searchMode': 2,
         'queryLogSources': [],
         'queryEventManager': True,
