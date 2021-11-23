@@ -130,12 +130,13 @@ def jsonify_errors(data):
 
 
 def set_ctr_entities_limit(payload):
+    default = current_app.config['CTR_DEFAULT_ENTITIES_LIMIT']
     try:
-        ctr_entities_limit = int(payload['CTR_ENTITIES_LIMIT'])
-        assert ctr_entities_limit > 0
-    except (KeyError, ValueError, AssertionError):
-        ctr_entities_limit = current_app.config['CTR_DEFAULT_ENTITIES_LIMIT']
-    current_app.config['CTR_ENTITIES_LIMIT'] = ctr_entities_limit
+        value = int(payload['CTR_ENTITIES_LIMIT'])
+        current_app.config['CTR_ENTITIES_LIMIT'] = value \
+            if value in range(1, default + 1) else default
+    except (ValueError, TypeError, KeyError):
+        current_app.config['CTR_ENTITIES_LIMIT'] = default
 
 
 def request_body(observable, interval_unit, limit):
