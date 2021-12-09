@@ -13,7 +13,7 @@ from api.errors import (
     MoreMessagesAvailableWarning,
 )
 
-INVALID_CREDENTIALS = 'wrong access_id or access_key'
+INVALID_CREDENTIALS = 'Wrong token'
 
 
 SEARCH_STATUSES = (
