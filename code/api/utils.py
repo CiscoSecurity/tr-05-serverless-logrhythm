@@ -95,8 +95,8 @@ def get_credentials():
         payload = jwt.decode(
             token, key=key, algorithms=['RS256'], audience=[aud.rstrip('/')]
         )
-        assert payload.get('token')
-        assert payload.get('host')
+        assert 'token' in payload
+        assert 'host' in payload
         set_ctr_entities_limit(payload)
 
         return payload
