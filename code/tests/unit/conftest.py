@@ -126,8 +126,7 @@ def authorization_error_expected_relay_response():
             [
                 {
                     'code': 'authorization error',
-                    'message': 'Authorization failed: wrong '
-                               'access_id or access_key',
+                    'message': 'Authorization failed: Wrong token',
                     'type': 'fatal'
                 }
             ]

@@ -3,7 +3,7 @@ from http import HTTPStatus
 
 import requests
 from flask import current_app
-from requests.exceptions import ConnectionError, SSLError
+from requests.exceptions import ConnectionError, SSLError, InvalidURL
 
 from api.utils import request_body, BearerAuth, result_request_body, add_error
 from api.errors import (
@@ -13,7 +13,7 @@ from api.errors import (
     MoreMessagesAvailableWarning,
 )
 
-INVALID_CREDENTIALS = 'wrong access_id or access_key'
+INVALID_CREDENTIALS = 'Wrong token'
 
 
 SEARCH_STATUSES = (
@@ -95,7 +95,7 @@ class LogRhythmClient:
             raise LogRhythmSSLError(error)
         except UnicodeEncodeError:
             raise AuthorizationError(INVALID_CREDENTIALS)
-        except ConnectionError:
+        except (ConnectionError, InvalidURL):
             raise LogRhythmConnectionError(url)
 
         if response.ok:
